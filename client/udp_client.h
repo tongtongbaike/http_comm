@@ -1,4 +1,5 @@
 #pragma once
+
 #include<iostream>
 #include<pthread.h>
 #include<sys/types.h>
@@ -7,10 +8,13 @@
 #include<arpa/inet.h>
 #include<string.h>
 #include<error.h>
+#include<errno.h>
 #include<string>
+#include<vector>
 #include<unistd.h>
 #include "comm.h"
-
+#include "udp_data.h"
+#include"chat_window.h"
 
 #define DEFAULT_IP "127.0.0.1"
 #define DEFAULT_PORT 8080
@@ -29,17 +33,19 @@ class udp_client
 		udp_client(string ip=DEFAULT_IP,short port=DEFAULT_PORT);
 
 		//析构函数
-		~upd_client();
+		~udp_client();
 		//初始化服务器
-		bool client_init();
+		void client_init();
 		//接收消息
-		bool recv_msg();
+		void recv_msg(string &_out);
 		//发送消息
-		bool send_msg();
+		void send_msg(string &_in);
+		void del_friend(const string &_win_f);
+		void add_friend(const string &_win_f);
+		std::vector<std::string> clif;
 	private:
 		u_data _now_data;//结构体
 		int _sock;//sock
-		string _msg;//当前接收消息
 		//short _port;//端口
 		//string _ip//IP地址
 };
